@@ -1,0 +1,176 @@
+datasource db {
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum TicketStatus {
+  PENDING
+  VALIDATING
+  PROCESSING
+  REVIEW_PENDING
+  WAITING_CLAUDE
+  COMPLETED
+  FAILED
+  REJECTED
+  ARCHIVED
+}
+
+// ─── Vendor (Tenant) ─────────────────────────────────────────────────────────
+model Vendor {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users       User[]
+  tickets     Ticket[]
+  config      VendorConfig?
+  auditLogs   AuditLog[]
+  memberships Membership[]
+}
+
+// ─── Per-Vendor Configuration (SSH, Repo, Git) ──────────────────────────────
+model VendorConfig {
+  id       String @id @default(uuid())
+  vendorId String @unique
+  vendor   Vendor @relation(fields: [vendorId], references: [id])
+
+  repoPath String @default("/var/www/html")
+
+  sshHost     String?
+  sshUser     String?
+  sshPassword String? // AES-256 encrypted at rest (deprecated: use sshKey)
+  sshKey      String? // AES-256 encrypted private key at rest
+
+  gitAuthUser      String?
+  gitPat           String?  // AES-256 encrypted
+  gitSshKey        String?  // AES-256 encrypted
+  gitSshPassphrase String?  // AES-256 encrypted
+
+  gitCommitName    String  @default("AutoBug")
+  gitCommitEmail   String  @default("autobug@adelphostech.com")
+
+  testCommand      String?
+
+  updatedAt DateTime @updatedAt
+}
+
+// ─── User ────────────────────────────────────────────────────────────────────
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String    @default("")
+  name         String?
+  role         UserRole  @default(USER)
+  vendorId     String?
+  vendor       Vendor?   @relation(fields: [vendorId], references: [id])
+  isActive     Boolean   @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  tickets      Ticket[]
+  auditLogs    AuditLog[]
+  memberships  Membership[]
+}
+
+// ─── Membership (RBAC within Vendor) ────────────────────────────────────────
+model Membership {
+  id        String @id @default(uuid())
+  userId    String
+  vendorId  String
+  role      String @default("member") // owner, admin, member, viewer
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vendor    Vendor @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, vendorId])
+  @@index([vendorId, role])
+}
+
+// ─── Ticket ──────────────────────────────────────────────────────────────────
+model Ticket {
+  id             String       @id @default(uuid())
+  clientId       String
+  vendorId       String?
+  description    String
+  targetRepoUrl  String       @default("/var/www/adelphos_frontend")
+  status         TicketStatus @default(PENDING)
+  progress       Int          @default(0)
+
+  agentSessionId  String?
+  validationJson  String?
+  executionJson   String?
+  proposedChanges String?
+  errorMessage    String?
+
+  assignedTo String?
+  adminNotes String?
+
+  imageReferences String?
+
+  memoryTrail String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  vendor Vendor? @relation(fields: [vendorId], references: [id], onDelete: SetNull)
+
+  @@index([clientId, createdAt])
+  @@index([vendorId, status])
+  @@index([status, createdAt])
+}
+
+// ─── Ticket Memory (Pattern Learning) ───────────────────────────────────────
+model TicketMemory {
+  id          String   @id @default(uuid())
+  userId      String
+  element     String?
+  issueType   String
+  pattern     String
+  resolution  String?
+  ticketId    String
+  description String
+  createdAt   DateTime @default(now())
+
+  @@index([userId, element])
+  @@index([issueType])
+}
+
+// ─── Audit Log (Compliance) ───────────────────────────────────────────────
+model AuditLog {
+  id        String   @id @default(uuid())
+  vendorId  String?
+  userId    String?
+  action    String   // TICKET_CREATED, TICKET_APPROVED, USER_LOGIN, etc.
+  resource  String?  // ticket:abc123, user:xyz
+  metadata  String?  // JSON string
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  vendor Vendor? @relation(fields: [vendorId], references: [id], onDelete: SetNull)
+
+  @@index([vendorId, createdAt])
+  @@index([userId, createdAt])
+  @@index([action, createdAt])
+}
+
+// ─── System Configuration (Global Defaults) ─────────────────────────────────
+model SystemConfig {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+  updatedBy String?
+}

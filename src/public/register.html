@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoBug — Partner Registration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #f8fafc;
+            --primary: #167a3f;          /* Adelphos Green */
+            --primary-dark: #0f512a;
+            --primary-light: rgba(22, 122, 63, 0.06);
+            --primary-glow: rgba(22, 122, 63, 0.15);
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --text-heading: #0f172a;
+            --error: #ef4444;
+            --error-glow: rgba(239, 68, 68, 0.05);
+            --shadow-premium: 0 20px 50px rgba(15, 23, 42, 0.08);
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Monaco', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: #f1f5f9;
+            min-height: 100vh;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background gradients */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 5% 5%, rgba(22, 122, 63, 0.05) 0%, transparent 35%),
+                        radial-gradient(circle at 95% 95%, rgba(204, 160, 40, 0.03) 0%, transparent 35%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .register-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 680px;
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: var(--radius-lg);
+            padding: 45px 50px;
+            box-shadow: var(--shadow-premium);
+        }
+
+        .register-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 6px;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .powered-by {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .powered-by img {
+            height: 22px;
+            object-fit: contain;
+            display: inline-block;
+            margin-top: -1px;
+        }
+
+        .register-header h1 {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: -0.01em;
+            margin-bottom: 8px;
+        }
+
+        .register-header p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Form styling */
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 24px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .section-divider {
+            grid-column: span 2;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 0.92rem;
+            font-family: var(--font-main);
+            color: var(--text-heading);
+            background-color: #f8fafc;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .form-input:focus {
+            background-color: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-glow);
+        }
+
+        .form-input.code-font {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 14px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            border-radius: 50%;
+            transition: color 0.2s ease;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+
+        .password-toggle svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Help tip */
+        .help-text {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+            line-height: 1.3;
+        }
+
+        /* Buttons & Alerts */
+        .alert {
+            grid-column: span 2;
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            font-size: 0.88rem;
+            display: none;
+            align-items: flex-start;
+            gap: 10px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .alert-error {
+            background-color: #fef2f2;
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            color: #b91c1c;
+        }
+
+        .alert-success {
+            background-color: #ecfdf5;
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            color: #047857;
+        }
+
+        .btn-submit {
+            grid-column: span 2;
+            padding: 14px;
+            background-color: var(--primary);
+            color: #ffffff;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.98rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(22, 122, 63, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-dark);
+            box-shadow: 0 6px 16px rgba(22, 122, 63, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .btn-submit:disabled {
+            background-color: var(--text-muted);
+            opacity: 0.6;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .register-footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .register-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-footer a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            form {
+                grid-template-columns: 1fr;
+            }
+            .full-width, .section-divider, .alert, .btn-submit {
+                grid-column: span 1;
+            }
+            .register-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+
+    <div class="register-container" id="registerContainer">
+        <div class="register-header">
+            <a href="/" class="logo">
+                <div class="logo-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 60" width="220" height="35" fill="none" stroke-linecap="round" stroke-linejoin="round" style="display: block; width: 220px; height: 35px; flex-shrink: 0;">
+                      <defs>
+                        <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stop-color="#C5E0BF" />
+                          <stop offset="50%" stop-color="#82C4AE" />
+                          <stop offset="100%" stop-color="#487ba3" />
+                        </linearGradient>
+                      </defs>
+                      <!-- Minimalist Geometric Bug Icon -->
+                      <g stroke="url(#logo-grad)" stroke-width="2.2">
+                        <!-- Antennae (forming a beautiful top circle) -->
+                        <path d="M 28 16 C 20 16 18 6 27 5" />
+                        <path d="M 32 16 C 40 16 42 6 33 5" />
+                        <!-- Antennae Tips (Dots) -->
+                        <circle cx="27" cy="5" r="1.5" fill="url(#logo-grad)" stroke="none" />
+                        <circle cx="33" cy="5" r="1.5" fill="url(#logo-grad)" stroke="none" />
+                        <!-- Head -->
+                        <circle cx="30" cy="18" r="3.5" fill="url(#logo-grad)" fill-opacity="0.12" />
+                        <!-- Body (Perfect Circle) -->
+                        <circle cx="30" cy="34" r="12" fill="url(#logo-grad)" fill-opacity="0.12" />
+                        <!-- Center Split Line -->
+                        <path d="M 30 22 L 30 46" />
+                        <!-- Inner loop (filament) -->
+                        <path d="M 25 30 C 25 38 35 38 35 30" stroke="#ffffff" stroke-width="1.6" />
+                        <!-- Legs (6 short ticks) -->
+                        <path d="M 19 28 Q 14 26 12 22" />
+                        <path d="M 18 34 H 10" />
+                        <path d="M 19 40 Q 14 42 12 46" />
+                        <path d="M 41 28 Q 46 26 48 22" />
+                        <path d="M 42 34 H 50" />
+                        <path d="M 41 40 Q 46 42 48 46" />
+                      </g>
+                      <!-- Text: AUTO3UG -->
+                      <g stroke="url(#logo-grad)" stroke-width="2.8">
+                        <!-- A -->
+                        <path d="M 75 48 L 90 12 L 105 48" />
+                        <!-- U -->
+                        <path d="M 117 12 V 33 A 15 15 0 0 0 147 33 V 12" />
+                        <!-- T -->
+                        <path d="M 159 12 H 189 M 174 12 V 48" />
+                        <!-- O -->
+                        <circle cx="219" cy="30" r="18" />
+                        <!-- B (Stylized 3) -->
+                        <path d="M 249 18 C 249 12 279 12 279 22 C 279 29 261 29 261 30 C 261 30 279 31 279 38 C 279 48 249 48 249 42" />
+                        <!-- U -->
+                        <path d="M 291 12 V 33 A 15 15 0 0 0 321 33 V 12" />
+                        <!-- G -->
+                        <path d="M 367 21 A 18 18 0 1 0 367 39 V 30 H 351" />
+                      </g>
+                    </svg>
+                </div>
+                <div class="powered-by">
+                    <span>powered by</span>
+                    <img src="logo.png" alt="Adelphos Tech">
+                </div>
+            </a>
+            <h1>Partner Registration</h1>
+            <p>Onboard your codebase to start diagnosing bugs instantly</p>
+        </div>
+
+        <div id="alertBox" class="alert alert-error">
+            <svg style="width: 20px; height: 20px; flex-shrink: 0;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+            <span id="alertMsg">Something went wrong</span>
+        </div>
+
+        <form id="registerForm" novalidate>
+            <!-- SECTION: Account Information -->
+            <div class="section-divider">
+                <svg style="width: 18px; height: 18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+                Account Credentials
+            </div>
+
+            <div class="form-group full-width">
+                <label for="companyName" class="form-label">Company Name</label>
+                <input type="text" id="companyName" class="form-input" placeholder="e.g. Acme Corporation" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="form-label">Admin Email</label>
+                <input type="email" id="email" class="form-input" placeholder="admin@company.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" class="form-input" placeholder="At least 8 characters" required>
+                    <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
+                        <svg id="eyeIcon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECTION: Repository Server Connection -->
+            <div class="section-divider">
+                <svg style="width: 18px; height: 18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                Secure Repository Settings
+            </div>
+
+            <div class="form-group full-width">
+                <label for="repoPath" class="form-label">Repository Directory Path</label>
+                <input type="text" id="repoPath" class="form-input code-font" placeholder="/var/www/adelphos_frontend" required>
+                <div class="help-text">Absolute path to the target repository folder on the SSH server.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="sshHost" class="form-label">SSH Server Host/IP</label>
+                <input type="text" id="sshHost" class="form-input code-font" placeholder="192.168.1.100" required>
+            </div>
+
+            <div class="form-group">
+                <label for="sshUser" class="form-label">SSH User</label>
+                <input type="text" id="sshUser" class="form-input code-font" placeholder="root / deploy" required>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="sshPassword" class="form-label">SSH Private Key or Password</label>
+                <input type="password" id="sshPassword" class="form-input" placeholder="Encrypted at rest using AES-256">
+                <div class="help-text">Your credentials are encrypted using industry-standard AES-256-GCM. We never share them.</div>
+            </div>
+
+            <button type="submit" class="btn-submit" id="btnSubmit">
+                <span>Create Partner Workspace</span>
+                <svg style="width: 18px; height: 18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </button>
+        </form>
+
+        <div class="register-footer">
+            Already have an account? <a href="/login">Sign in here</a>
+        </div>
+    </div>
+
+    <script>
+        const registerForm = document.getElementById('registerForm');
+        const alertBox = document.getElementById('alertBox');
+        const alertMsg = document.getElementById('alertMsg');
+        const passwordInput = document.getElementById('password');
+        const passwordToggle = document.getElementById('passwordToggle');
+        const eyeIcon = document.getElementById('eyeIcon');
+        const btnSubmit = document.getElementById('btnSubmit');
+
+        // Toggle password visibility
+        passwordToggle.addEventListener('click', () => {
+            const isPassword = passwordInput.getAttribute('type') === 'password';
+            passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+            if (isPassword) {
+                eyeIcon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+                `;
+            } else {
+                eyeIcon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                `;
+            }
+        });
+
+        function showAlert(msg, isSuccess = false) {
+            alertMsg.textContent = msg;
+            alertBox.style.display = 'flex';
+            if (isSuccess) {
+                alertBox.className = 'alert alert-success';
+            } else {
+                alertBox.className = 'alert alert-error';
+            }
+        }
+
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            alertBox.style.display = 'none';
+
+            const companyName = document.getElementById('companyName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = passwordInput.value;
+            const repoPath = document.getElementById('repoPath').value.trim();
+            const sshHost = document.getElementById('sshHost').value.trim();
+            const sshUser = document.getElementById('sshUser').value.trim();
+            const sshPassword = document.getElementById('sshPassword').value;
+
+            // Simple front-end validation
+            if (!companyName || !email || !password || !repoPath || !sshHost || !sshUser) {
+                showAlert('Please fill in all required fields.');
+                return;
+            }
+
+            if (password.length < 8) {
+                showAlert('Password must be at least 8 characters long.');
+                return;
+            }
+
+            if (!repoPath.startsWith('/')) {
+                showAlert('Repository path must be an absolute path (starting with /).');
+                return;
+            }
+
+            btnSubmit.disabled = true;
+            btnSubmit.querySelector('span').textContent = 'Creating Partner Workspace...';
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        companyName,
+                        email,
+                        password,
+                        repoPath,
+                        sshHost,
+                        sshUser,
+                        sshPassword
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    btnSubmit.disabled = false;
+                    btnSubmit.querySelector('span').textContent = 'Create Partner Workspace';
+                    showAlert(data.error || 'Registration failed.');
+                    return;
+                }
+
+                // Success! Save JWT and redirect
+                localStorage.setItem('autobug_token', data.token);
+                localStorage.setItem('autobug_user', JSON.stringify(data.user));
+
+                showAlert('Workspace created successfully! Redirecting...', true);
+                
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1500);
+
+            } catch (err) {
+                console.error(err);
+                btnSubmit.disabled = false;
+                btnSubmit.querySelector('span').textContent = 'Create Partner Workspace';
+                showAlert('Network error. Unable to connect to the AutoBug server.');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adelphos — AI Infrastructure & Automation for Enterprise Growth</title>
+  <meta name="description"
+    content="We architect sovereign AI infrastructure, on-premise LLM deployments, conversational voice agents, and intelligent lead orchestration. Book a strategy call." />
+  <link rel="canonical" href="https://adelphostech.com/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://adelphostech.com/" />
+  <meta property="og:title" content="Adelphos — AI Infrastructure & Automation for Enterprise Growth" />
+  <meta property="og:description" content="We architect sovereign AI infrastructure, on-premise LLM deployments, conversational voice agents, and intelligent lead orchestration. Book a strategy call." />
+  <meta property="og:image" content="https://adelphostech.com/favicon-512x512.png" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://adelphostech.com/" />
+  <meta property="twitter:title" content="Adelphos — AI Infrastructure & Automation for Enterprise Growth" />
+  <meta property="twitter:description" content="We architect sovereign AI infrastructure, on-premise LLM deployments, conversational voice agents, and intelligent lead orchestration. Book a strategy call." />
+  <meta property="twitter:image" content="https://adelphostech.com/favicon-512x512.png" />
+
+  <!-- Structured Data / JSON-LD Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Adelphos Tech",
+    "url": "https://adelphostech.com/",
+    "logo": "https://adelphostech.com/favicon-512x512.png",
+    "description": "We architect sovereign AI infrastructure, on-premise LLM deployments, conversational voice agents, and intelligent lead orchestration.",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+918866999550",
+      "contactType": "sales",
+      "availableLanguage": "English"
+    },
+    "sameAs": [
+      "https://adelphostech.com/"
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
+  <link rel="stylesheet" href="style.css?v=12" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon-512x512.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="shortcut icon" href="favicon.ico" />
+</head>
+
+<body>
+
+  <!-- ═══════ PRELOADER ═══════ -->
+  <div id="preloader">
+    <div class="preloader__logo-wrap">
+      <img src="main.png" alt="Adelphos" class="preloader__logo-img" width="64" height="64" />
+      <div class="preloader__ring"></div>
+    </div>
+    <div id="preloader-text" class="preloader__text">CALIBRATING AUTONOMOUS SYSTEMS... [0%]</div>
+    <div class="preloader__bar-track">
+      <div id="preloader-bar-fill" class="preloader__bar-fill"></div>
+    </div>
+    <div id="preloader-percent" class="preloader__percent">0%</div>
+  </div>
+
+  <!-- ═══════ PROGRESS BAR ═══════ -->
+  <div id="progress-bar" class="progress-bar"></div>
+
+  <!-- ═══════ NAV BAR ═══════ -->
+  <nav id="nav-bar" class="nav-bar">
+    <a href="/" class="nav-logo"><img src="logo.png" alt="Adelphos" class="nav-logo__img" width="131" height="52" /></a>
+    <div class="nav-links">
+      <a href="/#services">Capabilities</a>
+      <a href="/simulator">Live Demos</a>
+      <a href="/#tco-calculator">Cost Calculator</a>
+      <a href="/#training">AI Training</a>
+    </div>
+    <a href="https://wa.me/918866999550" target="_blank" rel="noopener" class="nav-cta">Book a Call</a>
+    <button id="nav-toggle" class="nav-toggle" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- ═══════ CANVAS ═══════ -->
+  <canvas id="frame-canvas"></canvas>
+  <div class="vignette" id="vignette"></div>
+
+  <!-- ═══════ FLOATING HAND CONTENT (holographic cards near robot's hand) ═══════ -->
+  <div class="hand-content" id="hand-content">
+
+    <!-- Left Hand Card: Voice Infrastructure -->
+    <div class="hand-card hand-card--left" id="hand-card-left">
+      <div class="hand-card__glow"></div>
+      <div class="hand-card__inner">
+        <span class="hand-card__tag">VOICE INFRASTRUCTURE</span>
+        <h3 class="hand-card__title">Sub-Second Voice Agents.</h3>
+        <p class="hand-card__desc">Deploy ultra-responsive, conversational AI for inbound routing and outbound
+          scheduling with zero robotic latency.</p>
+      </div>
+    </div>
+
+    <!-- Right Hand Card: Lead Orchestration -->
+    <div class="hand-card hand-card--right" id="hand-card-right">
+      <div class="hand-card__glow"></div>
+      <div class="hand-card__inner">
+        <span class="hand-card__tag">LEAD ORCHESTRATION</span>
+        <h3 class="hand-card__title">Intelligent Lead Qualification.</h3>
+        <p class="hand-card__desc">Automate high-intent interactions. Capture, score, and route prospects instantly
+          through behavioral AI analysis.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════ SCROLL INDICATOR ═══════ -->
+  <div id="scroll-indicator" class="scroll-indicator">
+    <span class="scroll-indicator__text">Scroll</span>
+    <div class="scroll-indicator__line"></div>
+  </div>
+
+  <!-- ═══════ HERO SCROLL OVERLAY ═══════ -->
+  <div class="scroll-container" id="scroll-container">
+
+    <!-- Hero 1 — 0% -->
+    <section class="section-panel section--intro" id="hero-1">
+      <div class="section-content">
+        <div class="section-divider"></div>
+        <h1 class="headline">THE ARCHITECTURE OF CHAOS.</h1>
+        <p class="subheadline">Manual workflows are the bottlenecks of the past. We identify the friction points holding
+          your enterprise back from true velocity.</p>
+      </div>
+    </section>
+
+    <div class="spacer-panel"></div>
+    <div class="spacer-panel"></div>
+
+    <!-- Hero 2 — 50% -->
+    <section class="section-panel section--middle" id="hero-2">
+      <div class="section-content main-offering-card">
+        <div class="main-offering-card__glow"></div>
+        <span class="main-offering-card__tag">CORE CAPABILITY</span>
+        <h2 class="headline gradient-headline">AUTONOMOUS INTELLIGENCE.</h2>
+        <div class="section-divider"></div>
+        <p class="subheadline">Stop renting your intelligence. We architect on-premise AI infrastructure and private LLM
+          deployments that ensure 100% data security and radical cost optimization.</p>
+      </div>
+    </section>
+
+    <div class="spacer-panel"></div>
+    <div class="spacer-panel"></div>
+
+    <!-- Hero 3 — 100% -->
+    <section class="section-panel section--final" id="hero-3">
+      <div class="section-content">
+        <div class="section-divider"></div>
+        <h2 class="headline">ENGINEERED FOR EXPONENTIAL GROWTH.</h2>
+        <p class="subheadline">Scale your operations without increasing your headcount or your API bill. Welcome to a
+          business model defined by precision and infinite scalability.</p>
+        <div class="cta-wrapper">
+          <div class="cta-glow"></div>
+          <a href="#footer-cta" class="cta-button" id="cta-hero">
+            Book a Strategy Call
+            <span class="cta-arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       BELOW-FOLD CONTENT (normal scroll flow)
+       ═══════════════════════════════════════════════ -->
+  <div class="below-fold">
+
+    <!-- ─── VALUE PROPOSITION ─── -->
+    <section class="vp-section" id="value-prop">
+      <div class="vp-inner">
+        <span class="section-label">Why Us</span>
+        <h2 class="vp-headline">Engineered for Scale.<br>Designed for Simplicity.</h2>
+        <div class="vp-divider"></div>
+        <p class="vp-body">Adopting AI shouldn't mean adding complexity to your tech stack. We architect bespoke
+          automation ecosystems that work silently in the background, multiplying your workforce's output while
+          eliminating human error. From complex backend logic to customer-facing interactions, we build the
+          infrastructure of tomorrow, today.</p>
+      </div>
+    </section>
+
+    <!-- ─── SOVEREIGN AI TCO CALCULATOR ─── -->
+    <section class="calc-section" id="tco-calculator">
+      <div class="calc-inner">
+
+        <span class="section-label">Cost Transparency</span>
+        <h2 class="calc-headline">Cloud vs. Sovereign AI — Know Your Real Costs</h2>
+        <p class="calc-sub">Every AI approach has a different cost profile. Cloud AI is pay-as-you-go and fast to start. Sovereign AI is a one-time build that you own outright. This calculator shows the honest numbers for both, based on your usage scale. There is no universally right answer — only the right one for your business.</p>
+
+        <!-- Step 1: Pick your scale -->
+        <div class="calc-step">
+          <p class="calc-step__label">Step 1 — How much is your business using AI?</p>
+          <div class="calc-profiles-row">
+            <button class="calc-pill is-active" data-profile="small">
+              <span class="calc-pill__name">Getting Started</span>
+              <span class="calc-pill__desc">A chatbot or support agent handling regular queries, automated scheduling, and customer responses</span>
+            </button>
+            <button class="calc-pill" data-profile="medium">
+              <span class="calc-pill__name">Growing Team</span>
+              <span class="calc-pill__desc">AI assistants for 20–50 staff plus customer-facing RAG and automation pipelines running daily</span>
+            </button>
+            <button class="calc-pill" data-profile="large">
+              <span class="calc-pill__name">Full Operation</span>
+              <span class="calc-pill__desc">AI running 24/7 across sales calls, document processing, and customer interactions at scale</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Source note -->
+        <div class="calc-price-note">
+          Pricing based on OpenAI GPT-4o published rates — <strong id="price-per-m">$8.00</strong> per million words
+          processed (blended input/output) · Verified May 2025
+        </div>
+
+        <!-- Step 2: See the comparison -->
+        <div class="calc-step">
+          <p class="calc-step__label">Step 2 — See the real cost difference</p>
+          <div class="calc-cards">
+
+            <!-- Cloud Card -->
+            <div class="calc-card calc-card--cloud" id="calc-cloud">
+              <div class="calc-card__verdict-strip calc-card__verdict-strip--neutral">Cloud AI &mdash; Pay-as-you-go</div>
+              <div class="calc-card__cost">
+                <span class="calc-card__amount" id="cloud-monthly">$400</span>
+                <span class="calc-card__period">per month</span>
+              </div>
+              <div class="calc-card__totals">
+                <div class="calc-total-row">
+                  <span>Total over 3 years</span>
+                  <strong id="cloud-3yr">$14,400</strong>
+                </div>
+                <div class="calc-total-row">
+                  <span>Your daily AI cost</span>
+                  <strong id="cloud-day">$13</strong>
+                </div>
+              </div>
+              <div class="calc-card__drawbacks">
+                <p class="calc-card__drawbacks-title">Trade-offs to consider</p>
+                <ul class="calc-list">
+                  <li>Monthly bill scales with usage volume</li>
+                  <li>Data is processed on third-party servers</li>
+                  <li>Zero setup cost &mdash; start immediately</li>
+                  <li>Flexibility to switch providers anytime</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Sovereign Card -->
+            <div class="calc-card calc-card--sovereign" id="calc-sovereign">
+              <div class="calc-card__verdict-strip calc-card__verdict-strip--win">Sovereign AI &mdash; Own it outright</div>
+              <div class="calc-card__cost">
+                <span class="calc-card__amount" id="sovereign-monthly">$322</span>
+                <span class="calc-card__period">per month equivalent</span>
+              </div>
+              <div class="calc-card__totals">
+                <div class="calc-total-row">
+                  <span>One-time hardware investment</span>
+                  <strong id="sovereign-hw">$8,000</strong>
+                </div>
+                <div class="calc-total-row">
+                  <span>Est. Power &amp; Maintenance (36 mo)</span>
+                  <strong id="sovereign-ops">$3,600 <span class="calc-total-sub">($100/mo)</span></strong>
+                </div>
+                <div class="calc-total-row calc-total-row--total">
+                  <span>Total cost over 3 years</span>
+                  <strong id="sovereign-3yr">$11,600</strong>
+                </div>
+              </div>
+              <div class="calc-card__drawbacks">
+                <p class="calc-card__drawbacks-title">Trade-offs to consider</p>
+                <ul class="calc-list calc-list--benefit">
+                  <li>Upfront hardware investment required</li>
+                  <li>All data stays on your own servers</li>
+                  <li>Flat ongoing cost &mdash; no usage fees</li>
+                  <li>Full control &mdash; no vendor dependency</li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Step 3: The bottom line -->
+        <div class="calc-step">
+          <p class="calc-step__label">Step 3 — Your 3-year savings projection</p>
+        </div>
+        <div class="calc-savings-banner" id="calc-insight">
+          <div class="calc-savings-left">
+            <span class="calc-savings-label">Your estimated 3-year savings</span>
+            <span class="calc-savings-amount" id="savings-3yr">$0</span>
+            <span class="calc-savings-sub" id="savings-note">by switching to sovereign AI infrastructure</span>
+          </div>
+          <div class="calc-savings-right">
+            <div class="calc-savings-stat">
+              <span id="breakeven-months">—</span>
+              <small>months until it pays for itself</small>
+            </div>
+            <div class="calc-savings-stat">
+              <span id="savings-per-day">$0</span>
+              <small>saved every single day</small>
+            </div>
+          </div>
+          <div class="calc-savings-cta">
+            <button class="cta-button btn-trigger-assessment" style="padding: 0.95rem 1.8rem; font-size: 0.85rem; border-radius: 50px;">
+              Claim These Savings
+              <span class="cta-arrow">→</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+
+    <!-- ─── AI READINESS AUDIT ─── -->
+    <section class="audit-section" id="audit">
+      <div class="audit-inner">
+        <div class="audit-card">
+          <div class="audit-card__glow"></div>
+          <div class="audit-card__content">
+            <span class="audit-tag">Diagnostic Framework</span>
+            <h2 class="audit-headline">The AI Maturity Index</h2>
+            <p class="audit-body">Our proprietary assessment takes 10 minutes to complete. It analyzes how work actually
+              happens across your organization to generate a custom maturity score, an actionable training roadmap, and
+              an estimated ROI for your AI transformation.</p>
+            <button id="btn-open-assessment" class="cta-button cta-button--outline btn-trigger-assessment">Begin the Assessment <span
+                class="cta-arrow">→</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── SERVICES ─── -->
+    <section class="services-section" id="services">
+      <div class="services-inner">
+        <span class="section-label">Core Capabilities</span>
+        <h2 class="services-headline">What We Build</h2>
+
+        <div class="services-grid">
+
+          <!-- Pillar 1 -->
+          <div class="service-card" id="service-1">
+            <div class="service-card__icon">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 14h32M8 24h32M8 34h32" stroke="url(#g1)" stroke-width="2" stroke-linecap="round" />
+                <circle cx="16" cy="14" r="3" fill="url(#g1)" />
+                <circle cx="32" cy="24" r="3" fill="url(#g1)" />
+                <circle cx="20" cy="34" r="3" fill="url(#g1)" />
+                <defs>
+                  <linearGradient id="g1" x1="8" y1="14" x2="40" y2="34">
+                    <stop stop-color="#2e7d32" />
+                    <stop offset="1" stop-color="#00897b" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <h3 class="service-card__title">Advanced Workflow Automation</h3>
+            <p class="service-card__hook">Put your operations on autopilot.</p>
+            <p class="service-card__body">We design and deploy robust, multi-step automation pipelines using advanced
+              frameworks like n8n. By seamlessly connecting your CRMs, databases, and third-party APIs, we eliminate
+              repetitive tasks and ensure your data flows instantly to where it's needed most.</p>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="service-card" id="service-2">
+            <div class="service-card__icon">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 6v4M24 38v4M6 24h4M38 24h4" stroke="url(#g2)" stroke-width="2" stroke-linecap="round" />
+                <circle cx="24" cy="24" r="10" stroke="url(#g2)" stroke-width="2" />
+                <path d="M20 22c0-1 1-2 2.5-2s2.5 1 2.5 2-1 1.5-2.5 1.5v1.5" stroke="url(#g2)" stroke-width="1.5"
+                  stroke-linecap="round" />
+                <circle cx="24" cy="29" r="0.75" fill="url(#g2)" />
+                <defs>
+                  <linearGradient id="g2" x1="6" y1="6" x2="42" y2="42">
+                    <stop stop-color="#2e7d32" />
+                    <stop offset="1" stop-color="#00897b" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <h3 class="service-card__title">Conversational Voice Agents</h3>
+            <p class="service-card__hook">AI that speaks your brand's language.</p>
+            <p class="service-card__body">Move beyond basic text chatbots. We develop ultra-low-latency, conversational
+              voice agents capable of handling complex customer service calls, inbound routing, and outbound scheduling.
+              Natural, responsive, and completely autonomous.</p>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="service-card" id="service-3">
+            <div class="service-card__icon">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="8" y="8" width="32" height="32" rx="4" stroke="url(#g3)" stroke-width="2" />
+                <path d="M16 20h16M16 26h10" stroke="url(#g3)" stroke-width="2" stroke-linecap="round" />
+                <path d="M34 28l4 4-4 4" stroke="url(#g3)" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <defs>
+                  <linearGradient id="g3" x1="8" y1="8" x2="42" y2="42">
+                    <stop stop-color="#2e7d32" />
+                    <stop offset="1" stop-color="#00897b" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <h3 class="service-card__title">Intelligent Knowledge Retrieval</h3>
+            <p class="service-card__hook">Your company's brain, instantly accessible.</p>
+            <p class="service-card__body">We build custom Retrieval-Augmented Generation (RAG) systems that securely
+              ingest your proprietary data and documents. Empower your team and your customers to query complex
+              information and receive instant, highly accurate, and context-aware answers.</p>
+          </div>
+
+          <!-- Pillar 4 -->
+          <div class="service-card" id="service-4">
+            <div class="service-card__icon">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 36L24 12L36 36M18 24H30" stroke="url(#g4)" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <circle cx="24" cy="8" r="4" fill="url(#g4)" />
+                <defs>
+                  <linearGradient id="g4" x1="8" y1="8" x2="42" y2="42">
+                    <stop stop-color="#2e7d32" />
+                    <stop offset="1" stop-color="#00897b" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <h3 class="service-card__title">Corporate AI Enablement</h3>
+            <p class="service-card__hook">Activate your entire workforce.</p>
+            <p class="service-card__body">We don't just hand you the keys to sovereign intelligence. We run live,
+              bespoke training programs to ensure your entire team transitions seamlessly into AI-native workflows,
+              driving adoption and maximizing your transformation ROI.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── THREE CAPABILITIES ─── -->
+    <section class="cap-section" id="process">
+      <div class="cap-inner">
+        <span class="section-label">How We Work</span>
+        <h2 class="cap-headline">Three Capabilities<br>behind <span style="color: var(--accent-l);">AI
+            Transformation</span></h2>
+        <div class="cap-sub">
+          <p>We audit before we automate.</p>
+          <p>We empower teams before we deploy infrastructure.</p>
+        </div>
+
+        <div class="cap-nav">
+          <div class="cap-nav-item"><span class="cap-nav-num">01</span> DIAGNOSE</div>
+          <div class="cap-nav-line"></div>
+          <div class="cap-nav-item"><span class="cap-nav-num">02</span> ACTIVATE</div>
+          <div class="cap-nav-line"></div>
+          <div class="cap-nav-item"><span class="cap-nav-num">03</span> BUILD</div>
+        </div>
+
+        <div class="cap-grid">
+
+          <!-- Card 1 -->
+          <div class="cap-card">
+            <div class="cap-card__header">
+              <h3 class="cap-card__title">Diagnose</h3>
+              <svg class="cap-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 6v6l4 2" />
+              </svg>
+            </div>
+            <p class="cap-card__sub">Enterprise AI Audit.</p>
+            <p class="cap-card__body">Our <strong>Enterprise AI Audit</strong> is a deep-dive operational analysis that
+              maps exactly <strong>where AI can eliminate friction</strong> across your workflows and data pipelines.
+            </p>
+            <div class="cap-card__footer">
+              <span class="cap-footer-label"><span class="cap-dot"></span>OUTPUT</span>
+              <p class="cap-footer-text">Custom ROI calculation, risk assessment, and an architectural blueprint.</p>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="cap-card">
+            <div class="cap-card__header">
+              <h3 class="cap-card__title">Activate</h3>
+              <svg class="cap-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2 12h4l3-9 5 18 3-9h5" />
+              </svg>
+            </div>
+            <p class="cap-card__sub">Corporate AI Enablement.</p>
+            <p class="cap-card__body">Bespoke training programs built around <strong>your company's proprietary
+                workflows</strong>. We ensure your entire workforce transitions seamlessly, so <strong>teams adopt AI
+                safely</strong> and effectively.</p>
+            <div class="cap-card__footer">
+              <span class="cap-footer-label"><span class="cap-dot"></span>OUTPUT</span>
+              <p class="cap-footer-text">AI-fluent employees, standardized prompt libraries, and immediate productivity
+                gains.</p>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="cap-card">
+            <div class="cap-card__header">
+              <h3 class="cap-card__title">Build</h3>
+              <svg class="cap-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="18" y="3" width="4" height="18" />
+                <rect x="10" y="8" width="4" height="13" />
+                <rect x="2" y="13" width="4" height="8" />
+              </svg>
+            </div>
+            <p class="cap-card__sub">Sovereign AI Infrastructure.</p>
+            <p class="cap-card__body"><strong>Secure, private AI ecosystems</strong> integrated directly into your
+              operations. <strong>Autonomous voice agents, RAG knowledge bases, intelligent routing, and zero-latency
+                automation pipelines.</strong></p>
+            <div class="cap-card__footer">
+              <span class="cap-footer-label"><span class="cap-dot"></span>OUTPUT</span>
+              <p class="cap-footer-text">Custom AI agents, sovereign LLM deployments, automated workflows.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── TRAINING & ENABLEMENT ─── -->
+    <section class="training-section" id="training">
+      <div class="training-inner">
+        <div class="training-content">
+          <span class="section-label">Corporate Enablement</span>
+          <h2 class="training-headline">Empower your team to master <span style="color: var(--accent-l);">AI
+              workflows</span>.</h2>
+          <p class="training-body">We provide hands-on, bespoke training programs designed specifically for your
+            organisation's unique processes. We ensure your team isn't just handed tools, but taught exactly how to
+            leverage them for maximum daily efficiency.</p>
+
+          <ul class="training-list">
+            <li>
+              <div class="t-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <path d="M22 4L12 14.01l-3-3" />
+                </svg></div>
+              <div>
+                <strong>Workflow Automation</strong>
+                <span>Learn how to identify and automate repetitive manual tasks using modern AI agents.</span>
+              </div>
+            </li>
+            <li>
+              <div class="t-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <path d="M22 4L12 14.01l-3-3" />
+                </svg></div>
+              <div>
+                <strong>Prompt Engineering &amp; AI Tools</strong>
+                <span>Master effective communication with LLMs to generate high-quality outputs instantly.</span>
+              </div>
+            </li>
+            <li>
+              <div class="t-list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <path d="M22 4L12 14.01l-3-3" />
+                </svg></div>
+              <div>
+                <strong>AI-Native Culture Transition</strong>
+                <span>Shift the corporate culture to embrace AI capabilities safely and securely.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="training-image-wrapper">
+          <div class="training-glow"></div>
+          <div class="training-card">
+            <h3 class="t-card-title">Training Roadmap</h3>
+            <div class="t-card-module">
+              <span class="t-mod-tag">Phase 1</span>
+              <p>AI Fundamentals &amp; Security</p>
+            </div>
+            <div class="t-card-module">
+              <span class="t-mod-tag">Phase 2</span>
+              <p>Workflow Analysis &amp; Tool Selection</p>
+            </div>
+            <div class="t-card-module">
+              <span class="t-mod-tag">Phase 3</span>
+              <p>Advanced Prompting &amp; Automation</p>
+            </div>
+            <div class="t-card-module">
+              <span class="t-mod-tag">Phase 4</span>
+              <p>Custom Systems &amp; Autonomous Agents</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── FAQ ─── -->
+    <section class="faq-section" id="faq">
+      <div class="faq-inner">
+        <span class="section-label">Common Questions</span>
+        <h2 class="faq-headline">Clarity over complexity.</h2>
+
+        <div class="faq-list">
+          <details class="faq-item" open>
+            <summary class="faq-item__question">How are you different from a traditional AI agency?<span
+                class="faq-icon"></span></summary>
+            <div class="faq-item__answer">
+              <p>Traditional agencies build disconnected tools. We are an AI Transformation partner. We audit your
+                workflows, build sovereign infrastructure, and activate your team through bespoke training so your
+                entire organization becomes AI-native permanently.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">Why Sovereign AI over cloud providers like OpenAI?<span
+                class="faq-icon"></span></summary>
+            <div class="faq-item__answer">
+              <p>Renting intelligence exposes your data to third-party servers and locks you into unpredictable,
+                escalating API fees. Sovereign AI means you own the models. Your data never leaves your infrastructure,
+                and your costs remain flat regardless of usage volume.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">How long does an AI transformation deployment take?<span
+                class="faq-icon"></span></summary>
+            <div class="faq-item__answer">
+              <p>We work in rapid cycles. Initial audits and blueprints take 1-2 weeks. First-phase deployment of
+                automation pipelines or voice agents typically takes 4-6 weeks. Enterprise-wide scaling and enablement
+                is an ongoing partnership.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">Do we need to hire data scientists to maintain this?<span
+                class="faq-icon"></span></summary>
+            <div class="faq-item__answer">
+              <p>No. We build our systems to be robust and fully managed. Your team will be trained to operate and
+                oversee the tools, while we handle the underlying infrastructure, model updates, and maintenance.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── FOOTER CTA ─── -->
+    <section class="footer-cta" id="footer-cta">
+      <div class="footer-cta__inner">
+        <div class="footer-cta__glow"></div>
+        <span class="section-label">Get Started</span>
+        <h2 class="footer-cta__headline">Ready to build your<br>automated future?</h2>
+        <p class="footer-cta__sub">Stop managing processes. Start accelerating growth.</p>
+        <div class="footer-cta__actions">
+          <button class="cta-button cta-button--lg btn-trigger-assessment" id="cta-footer">
+            Let's Talk Architecture
+            <span class="cta-arrow">→</span>
+          </button>
+        </div>
+        <p class="footer-cta__note">Available for custom integration projects and enterprise consulting.</p>
+      </div>
+      <footer class="site-footer">
+        <div class="site-footer__inner">
+          <a href="/" class="nav-logo"><img src="logo.png" alt="Adelphos" class="nav-logo__img" width="131" height="52" /></a>
+          <div class="site-footer__contact">
+            <a href="mailto:info@adelphostech.com" class="site-footer__link">info@adelphostech.com</a>
+            <span class="site-footer__dot">&middot;</span>
+            <a href="tel:+918866999550" class="site-footer__link">+91 88669 99550</a>
+          </div>
+          <p class="site-footer__copy">&copy; 2026 Adelphos. All rights reserved.</p>
+        </div>
+      </footer>
+    </section>
+
+  </div>
+
+  <!-- ═══════ ASSESSMENT MODAL ═══════ -->
+  <div class="amodal" id="assessment-modal" role="dialog" aria-modal="true" aria-label="AI Maturity Assessment Form">
+    <div class="amodal__backdrop" id="amodal-backdrop"></div>
+    <div class="amodal__panel">
+      <div class="amodal__header">
+        <div>
+          <span class="audit-tag" style="margin-bottom:.5rem;">Free Diagnostic</span>
+          <h2 class="amodal__title">AI Maturity Assessment</h2>
+          <p class="amodal__subtitle">Tell us about your organisation. We'll analyse your AI readiness and send you a
+            custom ROI roadmap within 48 hours.</p>
+        </div>
+        <button class="amodal__close" id="amodal-close" aria-label="Close">×</button>
+      </div>
+
+      <!-- FORM — submits via native mail client directly to info@adelphostech.com -->
+      <form class="amodal__form" id="assessment-form">
+
+        <div class="aform-section">
+          <h3 class="aform-section__title">Contact Information</h3>
+          <div class="aform-row aform-row--2">
+            <div class="aform-field">
+              <label class="aform-label" for="af-name">Full Name <span class="aform-req">*</span></label>
+              <input class="aform-input" id="af-name" name="full_name" type="text" placeholder="John Smith" required
+                autocomplete="name">
+            </div>
+            <div class="aform-field">
+              <label class="aform-label" for="af-title">Job Title</label>
+              <input class="aform-input" id="af-title" name="job_title" type="text"
+                placeholder="CTO / CEO / Operations Head" autocomplete="organization-title">
+            </div>
+          </div>
+          <div class="aform-row aform-row--2">
+            <div class="aform-field">
+              <label class="aform-label" for="af-email">Work Email <span class="aform-req">*</span></label>
+              <input class="aform-input" id="af-email" name="email" type="email" placeholder="you@company.com" required
+                autocomplete="email">
+            </div>
+            <div class="aform-field">
+              <label class="aform-label" for="af-phone">Phone Number</label>
+              <input class="aform-input" id="af-phone" name="phone" type="tel" placeholder="+91 98765 43210"
+                autocomplete="tel">
+            </div>
+          </div>
+        </div>
+
+        <div class="aform-section">
+          <h3 class="aform-section__title">Organisation Details</h3>
+          <div class="aform-row aform-row--2">
+            <div class="aform-field">
+              <label class="aform-label" for="af-company">Company Name <span class="aform-req">*</span></label>
+              <input class="aform-input" id="af-company" name="company_name" type="text" placeholder="Acme Corp"
+                required autocomplete="organization">
+            </div>
+            <div class="aform-field">
+              <label class="aform-label" for="af-website">Company Website</label>
+              <input class="aform-input" id="af-website" name="website" type="text" placeholder="yourcompany.com"
+                autocomplete="url">
+            </div>
+          </div>
+          <div class="aform-row aform-row--2">
+            <div class="aform-field">
+              <label class="aform-label" for="af-size">Company Size <span class="aform-req">*</span></label>
+              <select class="aform-input aform-select" id="af-size" name="company_size" required>
+                <option value="" disabled selected>Select headcount</option>
+                <option value="1-10">1–10 employees</option>
+                <option value="11-50">11–50 employees</option>
+                <option value="51-200">51–200 employees</option>
+                <option value="201-500">201–500 employees</option>
+                <option value="500+">500+ employees</option>
+              </select>
+            </div>
+            <div class="aform-field">
+              <label class="aform-label" for="af-industry">Industry <span class="aform-req">*</span></label>
+              <select class="aform-input aform-select" id="af-industry" name="industry" required>
+                <option value="" disabled selected>Select industry</option>
+                <option>Finance &amp; Banking</option>
+                <option>Healthcare</option>
+                <option>Retail &amp; E-Commerce</option>
+                <option>Manufacturing</option>
+                <option>Real Estate</option>
+                <option>Legal &amp; Compliance</option>
+                <option>Technology</option>
+                <option>Education</option>
+                <option>Logistics &amp; Supply Chain</option>
+                <option>Marketing &amp; Media</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="aform-section">
+          <h3 class="aform-section__title">AI Readiness</h3>
+          <div class="aform-field">
+            <label class="aform-label" for="af-ai-use">Current AI Usage <span class="aform-req">*</span></label>
+            <select class="aform-input aform-select" id="af-ai-use" name="current_ai_usage" required>
+              <option value="" disabled selected>How is your team using AI today?</option>
+              <option value="Not using AI">We are not using AI at all</option>
+              <option value="Exploring">We are exploring / researching AI</option>
+              <option value="Using basic tools">We use basic tools (ChatGPT, Copilot, etc.)</option>
+              <option value="Deployed some automation">We have deployed some automation</option>
+              <option value="Heavily integrated">AI is heavily integrated in our workflows</option>
+            </select>
+          </div>
+          <div class="aform-field">
+            <label class="aform-label" for="af-challenge">Biggest Operational Challenge <span
+                class="aform-req">*</span></label>
+            <textarea class="aform-input aform-textarea" id="af-challenge" name="biggest_challenge"
+              placeholder="e.g. Our customer support team handles 500+ tickets/day manually. We want to automate responses and routing..."
+              required rows="4"></textarea>
+          </div>
+          <div class="aform-field">
+            <label class="aform-label" for="af-goal">What do you want to achieve with AI?</label>
+            <textarea class="aform-input aform-textarea" id="af-goal" name="ai_goal"
+              placeholder="e.g. Cut operational costs by 40%, free up our team to focus on strategy..."
+              rows="3"></textarea>
+          </div>
+        </div>
+
+        <div id="aform-status" class="aform-status" style="display:none;"></div>
+
+        <div class="aform-footer">
+          <p class="aform-privacy">Your information is confidential. We will never share your data with third parties.
+          </p>
+          <button type="submit" class="cta-button cta-button--lg aform-submit" id="aform-submit-btn">
+            Submit Assessment <span class="cta-arrow">→</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ═══════ SCRIPTS ═══════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+
+</body>
+
+</html>

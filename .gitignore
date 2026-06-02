@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Environment & secrets
+.env
+.ssh/
+CREDENTIALS.md
+
+# Database & uploads
+dev.db
+*.db-journal
+uploads/
+
+# Logs & temp
+logs/
+*.log
+tmp/
+temp/
+*.tmp
+
+# OS & IDE
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Claude
+.claude/
