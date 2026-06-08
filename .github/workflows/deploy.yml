@@ -1,0 +1,60 @@
+name: Deploy to Production Server
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to VPN Server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prisma generate (validate schema)
+        run: npx prisma generate
+
+      - name: Deploy to server via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT || '22' }}
+          source: "src/,prisma/,package.json,package-lock.json,prisma.config.cjs,auto-dispatcher.js,safe-auto-dispatcher.js,prompt-generator.js,README.md,.env.example,.gitignore"
+          target: "/opt/autobug"
+
+      - name: Restart services on server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT || '22' }}
+          script_stop: true
+          script: |
+            set -e
+            cd /opt/autobug
+            echo "Installing dependencies..."
+            npm install --production
+            echo "Generating Prisma client..."
+            npx prisma generate
+            echo "Restarting services..."
+            systemctl restart autobug-server
+            systemctl restart autobug-worker
+            echo "Checking service status..."
+            systemctl is-active autobug-server
+            systemctl is-active autobug-worker
+            echo "Deployment complete!"
