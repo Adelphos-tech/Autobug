@@ -7,6 +7,6 @@ module.exports = defineConfig({
     path: 'prisma/migrations',
   },
   datasource: {
-    url: env('DATABASE_URL'),
+    url: env('DATABASE_URL', { fallback: 'file:./dev.db' }),
   },
 });
