@@ -28,26 +28,18 @@ jobs:
           DATABASE_URL: file:./dev.db
         run: npx prisma generate
 
-      - name: Setup SSH key
-        env:
-          DEPLOY_KEY: ${{ secrets.SSH_KEY }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_PORT: ${{ secrets.SSH_PORT }}
-        run: |
-          mkdir -p ~/.ssh
-          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          PORT="${SSH_PORT:-22}"
-          ssh-keyscan -H -p "$PORT" "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
 
       - name: Deploy to server via SCP
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
         run: |
           PORT="${SSH_PORT:-22}"
-          scp -i ~/.ssh/deploy_key -P "$PORT" -o StrictHostKeyChecking=no -r \
+          sshpass -p "$SSH_PASSWORD" scp -P "$PORT" -o StrictHostKeyChecking=no -r \
             src/ prisma/ package.json package-lock.json prisma.config.cjs \
             auto-dispatcher.js safe-auto-dispatcher.js prompt-generator.js \
             README.md .env.example .gitignore \
@@ -58,9 +50,10 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
         run: |
           PORT="${SSH_PORT:-22}"
-          ssh -i ~/.ssh/deploy_key -p "$PORT" -o StrictHostKeyChecking=no \
+          sshpass -p "$SSH_PASSWORD" ssh -p "$PORT" -o StrictHostKeyChecking=no \
             "${SSH_USER}@${SSH_HOST}" << 'EOF'
             set -e
             cd /opt/autobug
