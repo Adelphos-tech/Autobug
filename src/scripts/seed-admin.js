@@ -12,6 +12,7 @@
 
 require('dotenv').config();
 const prisma = require('../services/prismaClient');
+const authService = require('../services/authService');
 
 async function seed() {
   console.log('╔═══════════════════════════════════════════════════════╗');
