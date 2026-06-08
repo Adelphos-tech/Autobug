@@ -42,7 +42,7 @@ jobs:
           sshpass -p "$SSH_PASSWORD" scp -P "$PORT" -o StrictHostKeyChecking=no -r \
             src/ prisma/ package.json package-lock.json prisma.config.cjs \
             auto-dispatcher.js safe-auto-dispatcher.js prompt-generator.js \
-            README.md .env.example .gitignore \
+            .env.example .gitignore \
             "${SSH_USER}@${SSH_HOST}:/opt/autobug/"
 
       - name: Restart services on server
