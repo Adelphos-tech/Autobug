@@ -24,6 +24,8 @@ jobs:
         run: npm ci
 
       - name: Prisma generate (validate schema)
+        env:
+          DATABASE_URL: file:./dev.db
         run: npx prisma generate
 
       - name: Deploy to server via SCP
