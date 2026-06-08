@@ -493,6 +493,91 @@ app.get('/api/auth/me', authMiddleware, async (req, res) => {
   });
 });
 
+// Update own profile (User)
+app.patch('/api/user/profile', authMiddleware, async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name || name.trim().length < 2) {
+      return res.status(400).json({ error: 'Name must be at least 2 characters' });
+    }
+    const updated = await prisma.user.update({
+      where: { id: req.user.id },
+      data: { name: name.trim() },
+      select: { id: true, email: true, name: true, role: true, vendorId: true }
+    });
+    res.json({ success: true, user: updated });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ error: 'Failed to update profile' });
+  }
+});
+
+// Change own password (User)
+app.post('/api/user/change-password', authMiddleware, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ error: 'Current and new password are required' });
+    }
+    if (newPassword.length < 8) {
+      return res.status(400).json({ error: 'New password must be at least 8 characters' });
+    }
+
+    // Verify current password
+    const user = await prisma.user.findUnique({ where: { id: req.user.id } });
+    const valid = await authService.comparePassword(currentPassword, user.passwordHash);
+    if (!valid) {
+      return res.status(401).json({ error: 'Current password is incorrect' });
+    }
+
+    const passwordHash = await authService.hashPassword(newPassword);
+    await prisma.user.update({ where: { id: req.user.id }, data: { passwordHash } });
+
+    res.json({ success: true, message: 'Password updated successfully' });
+  } catch (error) {
+    console.error('Error changing password:', error);
+    res.status(500).json({ error: 'Failed to change password' });
+  }
+});
+
+// Get own vendor config (read-only for users)
+app.get('/api/user/vendor', authMiddleware, async (req, res) => {
+  try {
+    if (!req.user.vendorId) {
+      return res.json({ vendor: null });
+    }
+    const vendor = await prisma.vendor.findUnique({
+      where: { id: req.user.vendorId },
+      include: {
+        config: {
+          select: {
+            repoPath: true,
+            sshHost: true,
+            sshUser: true,
+            gitCommitName: true,
+            gitCommitEmail: true,
+            updatedAt: true
+          }
+        }
+      }
+    });
+    if (!vendor) return res.status(404).json({ error: 'Vendor not found' });
+    res.json({
+      vendor: {
+        id: vendor.id,
+        name: vendor.name,
+        repoPath: vendor.config?.repoPath || '/var/www/html',
+        sshHost: vendor.config?.sshHost || '—',
+        sshUser: vendor.config?.sshUser || '—',
+        updatedAt: vendor.config?.updatedAt || vendor.updatedAt
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching vendor:', error);
+    res.status(500).json({ error: 'Failed to fetch vendor info' });
+  }
+});
+
 // ============================================
 // NOTIFICATION SYSTEM
 // ============================================
