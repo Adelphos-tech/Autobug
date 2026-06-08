@@ -206,6 +206,13 @@ async function logAudit(req, action, resource = null, metadata = null) {
 // ============================================
 const createTicketSchema = z.object({
   description: z.string().min(5).max(5000),
+  title: z.string().max(200).optional(),
+  category: z.enum(['BUG', 'FEATURE', 'ENHANCEMENT', 'OTHER']).optional(),
+  priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']).optional(),
+  expectedBehavior: z.string().max(2000).optional(),
+  actualBehavior: z.string().max(2000).optional(),
+  stepsToReproduce: z.string().max(3000).optional(),
+  filePath: z.string().max(500).optional(),
   targetRepoUrl: z.string().max(500).optional(),
 });
 
@@ -718,7 +725,7 @@ app.post('/api/tickets', authMiddleware, ticketCreateLimiter, upload.array('imag
       return res.status(400).json({ error: 'Invalid input', details: validation.error.flatten() });
     }
 
-    const { description } = validation.data;
+    const { description, title, category, priority, expectedBehavior, actualBehavior, stepsToReproduce, filePath } = validation.data;
 
     // Collect and validate image paths
     let imagePaths = [];
@@ -747,11 +754,29 @@ app.post('/api/tickets', authMiddleware, ticketCreateLimiter, upload.array('imag
     // Resolve vendor's repo path
     const vendorRepoPath = req.user.vendor?.config?.repoPath || '/var/www/adelphos_frontend';
 
+    // Build rich description from structured fields if available
+    let richDescription = description.trim();
+    if (expectedBehavior || actualBehavior || stepsToReproduce || filePath) {
+      const parts = [description.trim()];
+      if (expectedBehavior) parts.push(`Expected behavior: ${expectedBehavior}`);
+      if (actualBehavior) parts.push(`Actual behavior: ${actualBehavior}`);
+      if (stepsToReproduce) parts.push(`Steps to reproduce: ${stepsToReproduce}`);
+      if (filePath) parts.push(`Target file: ${filePath}`);
+      richDescription = parts.join('\n\n');
+    }
+
     const ticket = await prisma.ticket.create({
       data: {
         clientId: req.user.id,
         vendorId: req.user.vendorId || null,
-        description: description.trim(),
+        title: title?.trim() || null,
+        description: richDescription,
+        category: category || 'BUG',
+        priority: priority || 'MEDIUM',
+        expectedBehavior: expectedBehavior?.trim() || null,
+        actualBehavior: actualBehavior?.trim() || null,
+        stepsToReproduce: stepsToReproduce?.trim() || null,
+        filePath: filePath?.trim() || null,
         targetRepoUrl: vendorRepoPath,
         status: 'PENDING',
         imageReferences: imagePaths.length > 0 ? JSON.stringify(imagePaths) : null
@@ -804,8 +829,16 @@ app.get('/api/tickets/my', authMiddleware, async (req, res) => {
       orderBy: { createdAt: 'desc' },
       select: {
         id: true,
+        title: true,
         description: true,
+        category: true,
+        priority: true,
+        expectedBehavior: true,
+        actualBehavior: true,
+        stepsToReproduce: true,
+        filePath: true,
         status: true,
+        progress: true,
         imageReferences: true,
         createdAt: true,
         updatedAt: true
@@ -835,8 +868,16 @@ app.get('/api/tickets/:id', authMiddleware, async (req, res) => {
       },
       select: {
         id: true,
+        title: true,
         description: true,
+        category: true,
+        priority: true,
+        expectedBehavior: true,
+        actualBehavior: true,
+        stepsToReproduce: true,
+        filePath: true,
         status: true,
+        progress: true,
         imageReferences: true,
         createdAt: true,
         updatedAt: true

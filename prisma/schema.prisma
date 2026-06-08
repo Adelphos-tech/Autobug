@@ -102,7 +102,14 @@ model Ticket {
   id             String       @id @default(uuid())
   clientId       String
   vendorId       String?
+  title          String?
   description    String
+  category       String       @default("BUG")
+  priority       String       @default("MEDIUM")
+  expectedBehavior String?
+  actualBehavior   String?
+  stepsToReproduce String?
+  filePath         String?
   targetRepoUrl  String       @default("/var/www/adelphos_frontend")
   status         TicketStatus @default(PENDING)
   progress       Int          @default(0)
@@ -110,6 +117,7 @@ model Ticket {
   agentSessionId  String?
   validationJson  String?
   executionJson   String?
+  executionSummary String?
   proposedChanges String?
   errorMessage    String?
 
