@@ -28,25 +28,25 @@ jobs:
           DATABASE_URL: file:./dev.db
         run: npx prisma generate
 
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H -p ${{ secrets.SSH_PORT || '22' }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
+
       - name: Deploy to server via SCP
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT || '22' }}
-          source: "src/,prisma/,package.json,package-lock.json,prisma.config.cjs,auto-dispatcher.js,safe-auto-dispatcher.js,prompt-generator.js,README.md,.env.example,.gitignore"
-          target: "/opt/autobug"
+        run: |
+          scp -i ~/.ssh/deploy_key -P ${{ secrets.SSH_PORT || '22' }} -o StrictHostKeyChecking=no -r \
+            src/ prisma/ package.json package-lock.json prisma.config.cjs \
+            auto-dispatcher.js safe-auto-dispatcher.js prompt-generator.js \
+            README.md .env.example .gitignore \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/opt/autobug/
 
       - name: Restart services on server
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT || '22' }}
-          script_stop: true
-          script: |
+        run: |
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT || '22' }} -o StrictHostKeyChecking=no \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             set -e
             cd /opt/autobug
             echo "Installing dependencies..."
@@ -60,3 +60,4 @@ jobs:
             systemctl is-active autobug-server
             systemctl is-active autobug-worker
             echo "Deployment complete!"
+          EOF
